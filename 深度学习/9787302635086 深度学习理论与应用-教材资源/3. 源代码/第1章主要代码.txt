@@ -1,0 +1,503 @@
+教材P6：
+------------------------------------------------------------------------------------------
+import torch     				#引入torch库
+print("Hello World")			#打印字符串"Hello World"
+print(torch.__version__)			#打印torch的版本号
+print(torch.cuda.is_available())	#检测电脑上是否有可用的GPU
+
+教材P8：
+------------------------------------------------------------------------------------------
+import torch
+x0 = torch.tensor(2)  		#0阶张量，形状为torch.Size([])，亦写为()
+x1 = torch.tensor([2]) 		#1阶张量，形状为torch.Size([1])，亦写为(1)
+x2 = torch.tensor([2,3]) 		#1阶张量，形状为torch.Size([2])，亦写为(2)
+x3 = torch.tensor([[2,3,4],  	#2阶张量，形状为torch.Size([2, 3])，亦写为(2, 3)
+               [5,6,7]])
+x4 = torch.tensor([[2,3,4],  	#2阶张量，形状为torch.Size([3, 3])，亦写为(3, 3)
+               [5, 6, 7],
+               [8, 9, 10]])
+print('x0的阶数为：{}，形状为：{}'.format(x0.ndim, x0.size()))
+print('x1的阶数为：{}，形状为：{}'.format(x1.ndim, x1.size()))
+print('x2的阶数为：{}，形状为：{}'.format(x2.ndim, x2.size()))
+print('x3的阶数为：{}，形状为：{}'.format(x3.ndim, x3.size()))
+print('x4的阶数为：{}，形状为：{}'.format(x4.ndim, x4.size()))
+
+
+
+教材P9：
+------------------------------------------------------------------------------------------
+x5 = torch.randn(32,3,224,224)
+x6 = torch.rand(32,3,224,224)
+x7 = torch.randint(0,6,[32,3,224,224])
+
+print(x1.dtype, x5.dtype)
+
+x = torch.tensor([2,3])  #torch.int64
+x = torch.Tensor([2,3])	#torch.float32
+
+x = torch.tensor([2,3.])  #torch.float32（自动识别）
+
+
+x = torch.ByteTensor([2,3])		#torch.uint8
+x = torch.CharTensor([2,3]) 		#torch.int8
+x = torch.ShortTensor([2,3])		#torch.int16
+x = torch.IntTensor([2,3])		#torch.int32
+x = torch.LongTensor([2,3])		#torch.int64
+x = torch.FloatTensor([2,3])		#torch.float32
+x = torch.DoubleTensor([2,3])	#torch.float64
+
+x = torch.tensor([2,3], dtype=torch.float64)  #torch.float64
+
+x = torch.tensor([2,3]).byte()		#torch.uint8
+x = torch.tensor([2,3]).char()		#torch.int8
+x = torch.tensor([2,3]).short()		#torch.int16
+x = torch.tensor([2,3]).int()		#torch.int32
+x = torch.tensor([2,3]).long()		#torch.int64
+x = torch.tensor([2,3]).float()		#torch.float32
+x = torch.tensor([2,3]).double()	#torch.float64
+
+
+
+
+
+
+教材P10：
+------------------------------------------------------------------------------------------
+x=torch.randint(0,10,[4,10])
+print(x)
+print(x[::,3:8:2])
+
+
+
+
+
+教材P11：
+------------------------------------------------------------------------------------------
+print(x[::,3:8:1])
+print(x[::,3:8:])
+print(x[::,3:8])
+
+print(x[::,-4:-1:])
+
+print(x[1:20:2, 3:8:])
+
+print(x[::,[3,1,0,0]])
+
+
+
+教材P12：
+------------------------------------------------------------------------------------------
+
+x=torch.randint(0,10,[4,5])
+print(x)
+x[::,2::2] = torch.zeros(4,2)
+print(x)
+
+y1 = torch.zeros_like(x)
+y2 = torch.ones_like(x)
+
+x=torch.randint(-6,8,[3,4])
+print(x)
+print(x[x<=0])
+
+
+
+
+
+教材P13：
+------------------------------------------------------------------------------------------
+x=torch.tensor([[-1, -4,  5,  0],
+             [ 1,  2,  7, -5],
+             [-4,  2,  1,  7]])
+print(x)
+x[x<=0] = 0  #赋值
+print(x)
+
+
+x=torch.randint(0,6,[2,3])
+print(x)
+print(x.sum())			#求x中所有元素之和
+print(x.sum(dim=0))	#沿着第1维进行相加
+print(x.sum(dim=1))	#沿着第2维进行相加
+
+
+
+
+
+
+教材P14：
+------------------------------------------------------------------------------------------
+x=torch.randint(-6,6, [2,3])
+print(x)
+print(x.min())
+print(x.min(dim=0) )
+print(x.min(dim=1))
+
+print(x.min(dim=0)[0])
+print(x.min(dim=0)[1])
+
+x=torch.randint(-6,6,[2,3])
+print(x)
+print(x.float().mean())
+print(x.float().mean(dim=0))	#沿着第1维计算平均值
+print(x.float().mean(dim=1))	#沿着第2维计算平均值
+
+
+教材P15：
+------------------------------------------------------------------------------------------
+x=torch.randint(0,6,[2,3])
+print(x)
+print(x.float().sqrt())
+
+x=torch.randint(-6,6,[2,3])
+print(x)
+print(x.argmax(dim=0))		#输出第1维上最大值的索引
+print(x.argmax(dim=1))		#输出第2维上最大值的索引
+
+
+x.to('cuda')
+x.to('cpu')
+
+
+
+教材P16：
+------------------------------------------------------------------------------------------
+x = torch.tensor([[[2]]])
+
+x=torch.randint(0,6,[10,20])
+y = x.reshape(10,4,5)  		#等价于y = x.view(10,4,5)
+
+
+y = x.reshape(10,4,6)
+
+x=torch.randint(0,6,[10,20])
+y = x.reshape(1,-1)
+
+
+x=torch.randint(0,6,[10,20])
+y1 = x.unsqueeze(0) 	#增加第1维，维的长度为1
+y2 = x.unsqueeze(1) 	#增加第2维，维的长度为1
+print(x.shape)
+print(y1.shape)
+print(y2.shape)
+print('-----------------')
+x=torch.randint(0,6,[1,1,1,10,20])
+y3 = x.squeeze(2) 	#去掉第3维
+y4 = x.squeeze(3) 	#无效，因为第4维的长度不是1
+y5 = x.squeeze() 	#去掉x中所有长度为1的维
+print(x.shape)
+print(y3.shape)
+print(y4.shape)
+print(y5.shape)
+
+
+
+教材P17：
+------------------------------------------------------------------------------------------
+x=torch.randint(0,6,[2,4])
+y = x.t() 		#交换第1维和第2维 （只适用于2阶张量）
+print(x.shape,y.shape)
+x=torch.randint(0,6,[2,4,6,8])
+y = x.transpose(0,2)	#交换第1维和第3维  
+print(x.shape,y.shape)
+
+y = x.permute([2,1,0,3])		#相当于交换第1维和第3维
+
+x=torch.randint(0,6,[2,3])
+y=torch.randint(1,8,[2,3])
+print(x)
+print(y)
+print('x/y结果如下：')
+print(x.float()/y)  #浮点数才能进行除运算
+
+
+
+
+
+教材P18：
+------------------------------------------------------------------------------------------
+x=torch.randint(0,6,[2,3]) #张量
+y = 3 	#一般的数值
+print(x)
+print(y)
+print('x*y结果如下：')
+print(x+y )
+
+x=torch.randint(0,6,[4])
+y=torch.randint(-5,6,[4])
+z = torch.dot(x,y)
+print(x)
+print(y)
+print(z)
+
+
+教材P19：
+------------------------------------------------------------------------------------------
+x=torch.randint(0,5,[2,3])  	#矩阵x，其第2维的长度为3（2×3矩阵） 
+y=torch.randint(-2,3,[3,4])	#矩阵y，其第1维的长度亦为3（3×4矩阵） 
+z = torch.mm(x,y)     		#产生2×4矩阵
+print(x)
+print(y)
+print(z)
+
+
+x=torch.randint(0,5,[32, 300, 400])  	#批量大小为32
+y=torch.randint(-2,3,[32, 400, 500])	#批量大小为32
+#x和y的第1维的长度（批量大小）为必须相等
+#x的第3维和y的第2维的长度要相等
+z = torch.bmm(x,y)		
+print(x.shape)
+print(y.shape)
+print(z.shape)
+
+
+教材P20：
+------------------------------------------------------------------------------------------
+
+x=torch.randint(0,5,[5,7,2,3])  	#35个2×3矩阵（先分为5组，再分为7组）
+y=torch.randint(-2,3,[5,7,3,4])	#35个3×4矩阵（先分为5组，再分为7组）
+z = torch.matmul(x,y)
+print(x.shape,'*',y.shape,'--->',z.shape)
+
+x=torch.randint(0,5,[2,3])  	#矩阵x，其第2维的长度为3（2×3矩阵） 
+y=torch.randint(-2,3,[3,4])	#矩阵y，其第1维的长度亦为3（3×4矩阵） 
+
+z = torch.mm(x,y)
+z = torch.matmul(x,y)
+
+x=torch.randint(0,5,[32, 300, 400])  	 
+y=torch.randint(-2,3,[32, 400, 500])
+
+
+z = torch.bmm(x,y)     		 
+z = torch.matmul(x,y)
+
+x=torch.randint(1,5,[3,4])
+x = x/2.
+y = torch.log2(x) 	#求log2(x) 
+print(x)
+print(y)
+
+
+
+教材P21：
+------------------------------------------------------------------------------------------
+y = torch.round(x)  	#四舍五入
+y = torch.exp(x)  		#求ex
+y = torch.log(x) 		#求loge(x) 
+y = torch.log10(x) 		#求log10(x) 
+y = torch.pow(x,2) 	#幂运算, torch.pow(x,2)等价于x**2
+
+
+x=torch.randint(1,5, [3,1])
+y=torch.randint(-3,5,[1,4])
+print(x)
+print(y)
+print(x+y)
+
+
+
+
+教材P22：
+------------------------------------------------------------------------------------------
+x=torch.tensor([3.],requires_grad=True)
+y=torch.tensor([2.],requires_grad=True)
+z = 2*x**2-6*y**2  
+f = z**2     
+f.backward()  #自动求导
+print('f的值为：',f.item())
+print('f关于x的梯度为：',x.grad.item())
+print('f关于y的梯度为：',y.grad.item())
+
+
+
+
+
+
+教材P23：
+------------------------------------------------------------------------------------------
+def get_z_grad(g):  #定义一个hook
+    global z_grad  #定义全局变量，用于存放梯度
+    z_grad = g
+    return None
+x = torch.tensor([3.], requires_grad=True)
+y = torch.tensor([2.], requires_grad=True)
+z = 2 * x ** 2 - 6 * y ** 2   
+f = z ** 2  
+z.register_hook(get_z_grad)  #注册该hook，但必须在f.backward()之前注册hook
+f.backward()  #自动求导
+print('f关于z的梯度为：', z_grad.item())
+
+a = [[4,1,0], [0,4,2]]
+a = np.array(a)			#先生成一个numpy数组a
+b = torch.tensor(a)			#转化为张量b
+c = torch.from_numpy(a)	#转化为张量c
+
+
+x = torch.randint(0,6,[2,3])
+a = np.array(x)
+b = x.numpy()
+
+
+x = torch.randint(0,6,[2,3])
+print(x.tolist())
+
+
+
+教材P24：
+------------------------------------------------------------------------------------------
+
+import torch
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+from torchvision.transforms.functional import to_pil_image
+path = r'./data/Interpretability/images'
+name = 'campus.jpg'
+img_path = path + '\\' + name
+origin_img = Image.open(img_path).convert('RGB')  #打开图片并转换为RGB模型
+
+#PIL---->Tensor（转为张量）
+img1 = np.array(origin_img)    #先转为numpy数组
+img1 = torch.ByteTensor(img1)  #再转为张量
+
+#Tensor---->PIL（又转回PIL图像） 
+pil_img2 = to_pil_image(np.array(img1), mode='RGB')
+
+plt.imshow(pil_img2) #显示图像
+plt.show()
+
+ 
+
+import torchvision.transforms as transforms
+#PIL---->Tensor（转为张量）
+tfs = transforms.Compose([transforms.ToTensor()])  ##在.Compose()中可添加多个操作，对图片进行改变
+img2 = tfs(origin_img)
+
+#Tensor---->PIL（又转回PIL图像）
+pil_img2 = transforms.ToPILImage()(img2)
+
+
+
+
+教材P25：
+------------------------------------------------------------------------------------------
+x1 = torch.randint(0,6,[3,4])
+x2 = torch.randint(0,6,[3,2])
+x = torch.cat([x1,x2],dim=1)
+print(x1)
+print(x2)
+print(x)
+
+
+x1 = torch.randint(0,6,[3,2,5,6,7]) 
+x2 = torch.randint(0,6,[3,5,5,6,7])
+x3 = torch.randint(0,6,[3,6,5,6,7])
+x4 = torch.randint(0,6,[3,7,5,6,7])
+x = torch.cat([x1,x2,x3,x4],dim=1)  
+
+
+
+教材P26：
+------------------------------------------------------------------------------------------
+
+import torch
+import torch.nn as nn
+class MyModel(nn.Module):  #定义深度神经网络模型类
+    def __init__(self):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 20, 5),	#第1个卷积层
+            nn.ReLU(),  			#激活函数relu
+            nn.Conv2d(20, 10, 3),	#第2个卷积层
+        )
+        ................... 核心代码见教材P26
+
+    def forward(self,x):
+        out = self.features(x) 				#输入两个卷积层
+        out = torch.max_pool2d(out, 2, 2)	 	#输入池化层
+        out = self.avgpool(out)  			#输入自适应平均池化层
+        out = out.reshape(x.shape[0], -1)  	#扁平化
+        out = self.fc(out)  					#输入全连接层
+        return out
+mymodel = MyModel()
+x = torch.randn(32,3,224,224)		#x为模型的输入张量
+pre_y = mymodel(x)  				#pre_y为输出的张量
+print('输入数据x的形状为：', x.shape)
+print('输入数据pre_y的形状为：', pre_y.shape)
+
+
+x = torch.randn(32, 3, 224, 224)	#正确
+x = torch.randn(1, 3, 300, 200) 	#正确
+x = torch.randn(32, 4, 224, 224)	#错误，通道数必需为3
+x = torch.randn(1, 32, 3, 224, 224)	#错误，维的数量（阶）必须为4
+
+教材P27：
+------------------------------------------------------------------------------------------
+
+for k,layer in enumerate(mymodel.children()): #调用children()方法获取各个网络层
+    print('第%d层（块）如下：'%(k+1))
+print(layer)
+
+for k,(name,layer) in enumerate(mymodel.named_children()):  
+    print('第%d层（块）的名称为：%s'%(k+1, name))
+    print(layer)
+
+
+
+
+教材P28：
+------------------------------------------------------------------------------------------
+
+for k,layer_block in enumerate(mymodel.modules()): #调用modules()方法 
+    print(  '----------- %d -----------'%(k+1) )
+    print(layer_block)
+
+
+
+
+教材P29：
+------------------------------------------------------------------------------------------
+layer = mymodel.features[2]
+
+ 
+
+x = torch.randn(32,20,100,100) 	#构造模拟数据，但要符合网络层输入形状
+out = layer(x)		#将x输入该网络层
+print(out.shape)	#输出的形状为torch.Size([32, 10, 98, 98])
+
+
+param_num = 0
+for param in mymodel.parameters():
+    param_num += torch.numel(param)  	#统计模型参数总量
+    print(param.shape)					#输出模型各层的参数（形状）
+print('该网络参数的总量为：',param_num)
+
+for param in mymodel.parameters():
+    param.requires_grad = False  #冻结参数 
+
+for param in mymodel.named_parameters():
+    print('参数名称为：',param[0], '参数的形状为：', param[1].shape )
+
+for key, param in mymodel.state_dict().items():
+    print('参数名称为：', key, '\t参数的形状为：', param.shape)
+
+ 
+
+教材P30：
+------------------------------------------------------------------------------------------
+torch.save(mymodel.state_dict(), 'mymodel.pth')  #文件扩展名推荐为pth或ph或其他
+
+my_new_model = MyModel()
+
+mymodel_paramters = torch.load('mymodel.pth')
+
+my_new_model.load_state_dict(mymodel_paramters)
+
+torch.save(mymodel, 'mymodel.pth')
+
+my_new_model = torch.load('mymodel.pth')
+
+
+
+
